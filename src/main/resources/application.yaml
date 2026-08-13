@@ -42,10 +42,10 @@ spring:
             enabled: true
             initialize-schema: always # Tells Spring AI to spin up default behaviors
     openai:
-      base-url: https://api.groq.com/openai/v1
-      api-key: ${GROK-API-KEY}
+      base-url: https://api.mistral.ai/v1
+      api-key: ${MISTRAL-API-KEY}
       chat:
-        model: llama-3.1-8b-instant #openai/gpt-oss-120b
+        model: mistral-medium-latest #openai/gpt-oss-120b
         temperature: 0.5
         top-p: 0.9
 
