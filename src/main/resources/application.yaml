@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: springAiAndMcp
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chat_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    hierarchy:
+      hikari:
+        maximum-pool-size: 10
+        minimum-idle: 5
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  ai:
+    mcp:
+      client:
+        type: ASYNC
+        stdio:
+          servers-configuration: classpath:mcp-servers.json
+    vectorstore:
+      pgvector:
+        dimensions: 1024
+        initialize-schema: true
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        schema-validation: true
+    chat:
+      client:
+        enabled: false
+      memory:
+        repository:
+          jdbc:
+            enabled: true
+            initialize-schema: always # Tells Spring AI to spin up default behaviors
+    openai:
+      base-url: https://api.groq.com/openai/v1
+      api-key: ${GROK-API-KEY}
+      chat:
+        model: llama-3.1-8b-instant #openai/gpt-oss-120b
+        temperature: 0.5
+        top-p: 0.9
+
+logging:
+  level:
+    root: INFO
+    org.springframework.ai.chat.client.advisor: DEBUG
+
+audit:
+  token-usage:
+    enabled: true
