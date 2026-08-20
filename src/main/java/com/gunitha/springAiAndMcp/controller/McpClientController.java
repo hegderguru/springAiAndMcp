@@ -2,18 +2,17 @@ package com.gunitha.springAiAndMcp.controller;
 
 import com.gunitha.springAiAndMcp.util.McpToolUtil;
 import io.modelcontextprotocol.client.McpAsyncClient;
-import io.modelcontextprotocol.client.McpSyncClient;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -53,6 +52,7 @@ public class McpClientController {
         return toolCallbacks.flatMap(toolCallbacks1 -> mcpChatClient.prompt(message + " user is " + username)
                 .advisors(new SimpleLoggerAdvisor())
                 .tools(toolCallbacks1)
+                .toolContext(Map.of("progressToken", UUID.randomUUID().toString()))
                 .user(message)
                 .stream()
                 .content()
