@@ -7,7 +7,7 @@ import org.springframework.ai.mcp.McpToolFilter;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
+//@Component
 public class McpServerToolFilter implements McpToolFilter {
     @Override
     public boolean test(McpConnectionInfo mcpConnectionInfo, McpSchema.Tool tool) {
