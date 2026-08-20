@@ -23,6 +23,7 @@ spring:
   ai:
     mcp:
       client:
+        timeout: 60s
         type: ASYNC
         stdio:
          servers-configuration: classpath:mcp-servers.json

@@ -1,0 +1,10 @@
+The following changes are needed to pull docker file and run while app is up
+# 1. Create the docker group (it might already exist)
+sudo groupadd docker
+# 2. Add your user account to the docker group
+sudo usermod -aG docker gunitha
+# 3. Apply the group changes to your current terminal session immediately
+newgrp docker
+sudo chmod 666 /var/run/docker.sock
+id
+su - gunitha
