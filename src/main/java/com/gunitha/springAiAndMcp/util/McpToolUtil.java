@@ -31,15 +31,31 @@ public class McpToolUtil {
                 || name.toLowerCase().contains(hint.toLowerCase());
     }
 
+    /*public static Mono<ToolCallback[]> selectedTools(List<McpAsyncClient> mcpAsyncClients, String serverName, String toolName) {
+        return Flux.fromIterable(mcpAsyncClients)
+                .flatMap(mcpAsyncClient -> mcpAsyncClient.listTools()
+                        .flatMapIterable(McpSchema.ListToolsResult::tools)
+                        .filter(tool -> matches(mcpAsyncClient.getServerInfo().name(), serverName) && matches(tool.name(), toolName))
+                        .flatMap(tool -> mcpAsyncClient.setLoggingLevel(McpSchema.LoggingLevel.INFO)
+                                .then(Mono.fromSupplier(() -> (ToolCallback) AsyncMcpToolCallback.builder()
+                                        .mcpClient(mcpAsyncClient)
+                                        .tool(tool)
+                                        .build())))
+                )
+                .collectList()
+                .map(asyncMcpToolCallbacks -> asyncMcpToolCallbacks.toArray(new ToolCallback[0]));
+    }*/
+
     public static Mono<ToolCallback[]> selectedTools(List<McpAsyncClient> mcpAsyncClients, String serverName, String toolName) {
         return Flux.fromIterable(mcpAsyncClients)
                 .flatMap(mcpAsyncClient -> mcpAsyncClient.listTools()
                         .flatMapIterable(McpSchema.ListToolsResult::tools)
                         .filter(tool -> matches(mcpAsyncClient.getServerInfo().name(), serverName) && matches(tool.name(), toolName))
-                        .map(tool -> AsyncMcpToolCallback.builder()
+                        .map(tool -> (ToolCallback) AsyncMcpToolCallback.builder()
                                 .mcpClient(mcpAsyncClient)
                                 .tool(tool)
-                                .build()))
+                                .build())
+                )
                 .collectList()
                 .map(asyncMcpToolCallbacks -> asyncMcpToolCallbacks.toArray(new ToolCallback[0]));
     }

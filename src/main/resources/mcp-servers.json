@@ -5,7 +5,7 @@
       "args": [
         "-jar",
         "/home/gunitha/Desktop/programming/gunitha/mcp/target/mcp-0.0.1-SNAPSHOT.jar",
-        "--logging.level.root=OFF"
+        "--logging.level.root=ERROR"
       ]
     },
     "github": {
