@@ -1,26 +1,12 @@
 {
   "mcpServers": {
-    "filesystem": {
-      "command": "npx",
+    "ticketsystem": {
+      "command": "/home/gunitha/.jdks/openjdk-26.0.2.1/bin/java",
       "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/home/gunitha/Desktop/programming/gunitha/springAiAndMcp/mcp"
+        "-jar",
+        "/home/gunitha/Desktop/programming/gunitha/mcp/target/mcp-0.0.1-SNAPSHOT.jar",
+        "--logging.level.root=OFF"
       ]
-    },
-    "github": {
-      "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "-e",
-        "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "ghcr.io/github/github-mcp-server"
-      ],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
-      }
     }
   }
 }

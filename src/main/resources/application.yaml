@@ -25,7 +25,12 @@ spring:
       client:
         type: ASYNC
         stdio:
-          servers-configuration: classpath:mcp-servers.json
+         servers-configuration: classpath:mcp-servers.json
+        streamable-http:
+          connections:
+            mcpRemote:
+              url: http://localhost:8090
+              endpoint: mcp #default path at which spring ai exposes mcp server
     vectorstore:
       pgvector:
         dimensions: 1024

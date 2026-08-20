@@ -4,10 +4,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -25,18 +22,18 @@ public class McpClientController {
     private ChatClient mcpChatClient;
 
     @GetMapping("chat")
-    public String chat(@RequestParam String message) {
-        return chatClient.prompt(message)
+    public String chat(@RequestHeader(required = false) String username,@RequestParam String message) {
+        return chatClient.prompt(message + " My username is "+username)
                 .advisors(new SimpleLoggerAdvisor())
                 .user(message).call().content();
     }
 
     @GetMapping("mcpChat")
-    public Mono<String> mcpChat(@RequestParam String message) {
+    public Mono<String> mcpChat(@RequestHeader(required = false) String username,@RequestParam String message) {
         // Mono.defer ensures that the entire chat setup execution moves
         // to a background thread before AsyncMcpToolCallbackProvider runs
         return Mono.defer(() ->
-                mcpChatClient.prompt(message)
+                mcpChatClient.prompt(message+" user is "+username)
                         .advisors(new SimpleLoggerAdvisor())
                         .user(message)
                         .stream()
