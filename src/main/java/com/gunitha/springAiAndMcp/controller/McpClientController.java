@@ -59,5 +59,18 @@ public class McpClientController {
                 .collect(Collectors.joining())).subscribeOn(Schedulers.boundedElastic()); // Safe offloading context switch
     }
 
+    @GetMapping("mcp-sampling")
+    public Mono<String> mcpSampling(@RequestHeader(required = false) String username) {
+        Mono<ToolCallback[]> toolCallbacksMono = McpToolUtil.selectedTools(mcpAsyncClients, "ticket-mcp-server", null); //"create"
+        return toolCallbacksMono.flatMap(toolCallbacks -> mcpChatClient.prompt()
+                .advisors(new SimpleLoggerAdvisor())
+                .system("Return the tool response without any changes")
+                .tools(toolCallbacks)
+                .user("Summarise all of my tickets for username " + username)
+                .stream()
+                .content()
+                .collect(Collectors.joining())).subscribeOn(Schedulers.boundedElastic()); // Safe offloading context switch
+    }
+
 
 }
