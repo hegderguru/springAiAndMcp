@@ -1,4 +1,4 @@
-package com.gunitha.springAiAndMcp.util;
+package com.gunitha.springAiAndMcp.handler;
 
 import io.modelcontextprotocol.spec.McpSchema;
 import lombok.extern.slf4j.Slf4j;
